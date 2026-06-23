@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta de Amor</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Sofia&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+flex-direction: column; /* Alinha o aviso e o envelope verticalmente */
+justify-content:center;
+align-items:center;
+background:#000;
+overflow:hidden;
+gap: 25px; /* Espaço entre o aviso e o envelope */
+}
+
+/* Estilização do aviso atualizada com nova fonte */
+.aviso {
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+color: #fff;
+text-align: center;
+max-width: 420px;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.6;
+padding: 0 20px;
+letter-spacing: 0.5px;
+text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(-10px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.envelop{
+width:320px;
+height:220px;
+position:relative;
+}
+
+.envelop__front-paper{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:12px;
+border:6px solid #967b5c;
+background:#ba9872;
+clip-path:polygon(100% 0%,50% 70%,0% 0%,0% 100%,100% 100%);
+z-index:300;
+}
+
+.envelop__back-paper{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:12px;
+background:#967b5c;
+clip-path:polygon(0% 0%,100% 0%,90% 100%,0% 90%);
+z-index:100;
+}
+
+.envelop__up-paper{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:12px;
+background:#967b5c;
+z-index:400;
+clip-path:polygon(0% 0%,100% 0%,50% 81%);
+cursor: pointer;
+}
+
+.envelop__sticker{
+width:100%;
+height:20%;
+position:absolute;
+top:30%;
+z-index:400;
+background:#fff url("https://www.freepnglogos.com/uploads/heart-png/emoji-heart-33.png") center/40px no-repeat;
+border:4px solid #e2e2e2;
+cursor: pointer;
+}
+
+.envelop__false-sticker{
+width:20%;
+height:20%;
+position:absolute;
+top:30%;
+left:80%;
+z-index:300;
+background:#fff url("https://www.freepnglogos.com/uploads/heart-png/emoji-heart-33.png") center/40px no-repeat;
+border:4px solid #e2e2e2;
+}
+
+.envelop__content{
+position:absolute;
+width:100%;
+height:100%;
+z-index:200;
+}
+
+.love-notes{
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.note{
+width:95%;
+height:30%;
+background:#f9f9f9;
+position:absolute;
+overflow:hidden;
+transition:.5s;
+box-shadow:0 0 5px rgba(0,0,0,.5);
+cursor: pointer;
+}
+
+.note:nth-child(1){bottom:60%;}
+.note:nth-child(2){bottom:40%;}
+.note:nth-child(3){bottom:20%;}
+
+.note:hover{
+height:45%;
+}
+
+.note__text{
+font-family:'Sofia',cursive;
+padding:15px;
+}
+
+.note__text p{
+text-align:center;
+font-size:15px;
+margin-bottom:10px;
+}
+
+.cursor{
+cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="aviso">
+ Hadassa, Primeiro vc clica no coração pra abrir a carta e depois clica nas folhas.
+</div>
+
+<div class="envelop">
+<div class="envelop__front-paper"></div>
+<div class="envelop__back-paper"></div>
+<div class="envelop__up-paper js-up-paper"></div>
+<div class="envelop__sticker js-sticker"></div>
+<div class="envelop__false-sticker"></div>
+
+<div class="envelop__content js-envelop-content">
+<div class="love-notes">
+
+<div class="note js-note">
+<div class="note__text">
+<p>Existem pessoas que passam pela nossa vida. E existem aquelas que, sem espaço algum, transformam um simples momento em uma lembrança bonita.</p>
+</div>
+</div>
+
+<div class="note js-note">
+<div class="note__text">
+  <p> Você é uma dessas raridades, Sabia? ❤️ </p>
+</div>
+</div>
+
+<div class="note js-note">
+<div class="note__text">
+<p>Eu sei que seu coração ainda carrega marcas, por isso não peço espaço nele.
+Só quero que você saiba que entre todos os sonhos que já tive, você foi o único que encontrei acordado.</p>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<script>
+const notes = document.querySelectorAll(".js-note");
+
+function notes_ready() {
+gsap.to(".js-envelop-content", {
+height: "110%",
+duration: 0.5
+});
+
+notes.forEach((note,index)=>{
+note.addEventListener("click",function(){
+
+notes.forEach(n=>{
+n.classList.remove("active");
+n.style.height="30%";
+});
+
+if(!this.classList.contains("opened")){
+this.classList.add("opened");
+this.style.height=(70 + index*20)+"%";
+}else{
+this.classList.remove("opened");
+this.style.height="30%";
+}
+});
+});
+}
+
+function set_up_paper() {
+gsap.set(".js-up-paper",{
+bottom:"97%",
+rotation:180,
+zIndex:200,
+clipPath:"polygon(0% 0%,100% 0%,50% 61%)",
+onComplete:notes_ready
+});
+}
+
+function envelop_transition() {
+gsap.to(".js-up-paper",{
+bottom:"1%",
+duration:0.25,
+onComplete:set_up_paper
+});
+}
+
+function sticker() {
+gsap.set(".js-sticker",{
+width:"20%",
+left:"-80%"
+});
+
+document
+.querySelector(".js-up-paper")
+.addEventListener("click",envelop_transition);
+}
+
+document
+.querySelector(".js-sticker")
+.addEventListener("click",sticker);
+</script>
+
+</body>
+</html>
